@@ -29,7 +29,7 @@
 
 using std::cout;
 
-extern "C" void adolc_exit(int errorcode, const char *what, const char* function, const char *file, int line);
+extern "C" void adolc_exit(int errorcode,const char *what, const char *function,const char* file, int line);
 
 namespace adtl {
 
