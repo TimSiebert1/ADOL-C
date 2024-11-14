@@ -36,7 +36,7 @@ jobs:
             clang-format --version
             # check if formatted correctly
             for file in $MODIFIED_FILES; do
-              clang-format --dry-run -Werror "$file"
+              clang-format --dry-run -Werror --ferror-limit=100 "$file"
             done
           else 
             echo "no modified files found!"
