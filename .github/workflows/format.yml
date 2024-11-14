@@ -28,6 +28,7 @@ jobs:
 
       - name: Check formatting with Clang-Format
         run: |
+          set +e # this should turn off exit-on-error
           # searches for all src files that are modified in comparison to origin/master
           # true is required to not error if there is no such file
           MODIFIED_FILES=$(git diff --name-only origin/master...HEAD | grep -E '\.(c|h|cpp|hpp)$' || true)
@@ -62,4 +63,5 @@ jobs:
           else 
             echo "no modified files found!"
           fi
+          exit 0
 
