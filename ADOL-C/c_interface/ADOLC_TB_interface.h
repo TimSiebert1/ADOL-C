@@ -17,15 +17,6 @@ Constructor & Destructor for class adouble
 #ifdef __cplusplus
 extern "C" {
 
-
-
-
-
-
-
-
-
-    
 #endif
 // Constructor
 TBAdoubleHandle create_tb_adouble(const double x);
