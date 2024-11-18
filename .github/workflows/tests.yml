@@ -30,7 +30,7 @@ jobs:
             cmake --build .
         
         - name: Run Tests
-          run: .${{ github.workspace }}/boost-test/boost-test-adolc
+          run: .${{ github.workspace }}/build/ADOL-C/boost-test/boost-test-adolc
 
 
         
