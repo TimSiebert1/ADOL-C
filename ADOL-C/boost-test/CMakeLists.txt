@@ -27,7 +27,8 @@ set(SOURCE_FILES
     traceFixedPointScalarTests.cpp
     )
 add_executable(boost-test-adolc ${SOURCE_FILES})
-target_link_libraries(boost-test-adolc 
+target_include_directories(boost-test-adolc PRIVATE "${ADOLC_INCLUDE_DIR}")
+target_link_libraries(boost-test-adolc PRIVATE
     adolc
     Boost::system 
     Boost::unit_test_framework)
