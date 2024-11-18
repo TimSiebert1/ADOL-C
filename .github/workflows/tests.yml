@@ -30,7 +30,7 @@ jobs:
             cmake --build .
         
         - name: Run Tests
-          run: ls  
+          run: ls build/  
 
 
         
