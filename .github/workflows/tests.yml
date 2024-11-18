@@ -30,7 +30,7 @@ jobs:
             cmake --build .
         
         - name: Run Tests
-          run: ls build/  
+          run: ./build/ADOL-C/boost-test/boost-test-adolc
 
 
         
