@@ -1,37 +1,34 @@
-name: Sanitizer Testing Workflow
-
+name: Tests with Sanitizers
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-
-jobs:
-  sanitizer-test:
-    strategy:
-      fail-fast: false
-      matrix:
-        sanitizer: [Address, Undefined, Thread, Leak]
-        compiler: [gcc, clang]
-        build_type: [Debug, Release]
+    push:
+      branches: [ "master" ]
+    pull_request:
+      branches: [ "master" ]
+    
+jobs: 
+  run-tests-with-sanitizers: 
     runs-on: ubuntu-latest
+    strategy: 
+      fail-fast: false
+      matrix: 
+        sanitizer: [Address, Undefined, Thread, Leak]
+        build_type: [Debug]
+        compiler: [gcc, clang]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y cmake g++ clang
+        run: sudo apt-get install -y libboost-all-dev
 
       - name: Configure CMake
         run: |
           cmake -S . -B build \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
             -DUSE_SANITIZER=${{ matrix.sanitizer }} \
-            -DCMAKE_C_COMPILER=${{ matrix.compiler }} \
             -DCMAKE_CXX_COMPILER=${{ matrix.compiler }} \
+            -DCMAKE_C_COMPILER=${{ matrix.compiler }} \
             -DBUILD_TESTS=ON
 
       - name: Build
