@@ -21,11 +21,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y libboost-all-dev
+        run: sudo apt-get update && sudo apt-get install -y clang libboost-all-dev
 
       - name: Configure CMake
         run: |
-          SANITIZER_FLAGS="-fsanitize=${{ matrix.sanitizer }} -fno-omit-frame-pointer"
+          SANITIZER_FLAGS="-fsanitize=${{ matrix.sanitizer }} -fno-omit-frame-pointer -g"
           cmake -S . -B build \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
             -DCMAKE_CXX_FLAGS=="${{ matrix.sanitizer_flags }}" \
