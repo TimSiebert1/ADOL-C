@@ -21,11 +21,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y clang cmake libboost-all-dev
+        run: sudo apt-get update && sudo apt-get install -y libboost-all-dev
 
       - name: Configure CMake
         run: |
-          SANITIZER_FLAGS="-fsanitize=${{ matrix.sanitizer }} -fno-omit-frame-pointer -g"
+          SANITIZER_FLAGS="-fsanitize=${{ matrix.sanitizer }} -fno-omit-frame-pointer"
           cmake -S . -B build \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
             -DCMAKE_CXX_FLAGS=="${{ matrix.sanitizer_flags }}" \
@@ -40,7 +40,7 @@ jobs:
 
       - name: Run tests
         run: |
-          cd build && ctest --output-on-failure
+          cd build && ctest -V
 
       - name: Upload logs
         if: failure()
