@@ -11,10 +11,7 @@ jobs:
     strategy: 
       fail-fast: false
       matrix: 
-        sanitizer_flags: [-fsanitize=address -fno-omit-frame-pointer,
-                          -fsanitize=undefined -fno-sanitize-recover=undefined,
-                          -fsanitize=thread, 
-                          -fsanitize=memory]
+        sanitizer: [address, undefined, thread, memory]
         build_type: [Debug]
         c_compiler : [clang]
         cpp_compiler: [clang++]
@@ -28,11 +25,14 @@ jobs:
 
       - name: Configure CMake
         run: |
+          SANITIZER_FLAGS="-fsanitize=${{ matrix.sanitizer }} -fno-omit-frame-pointer -g"
           cmake -S . -B build \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
             -DCMAKE_CXX_FLAGS=="${{ matrix.sanitizer_flags }}" \
             -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
             -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
+            -DCMAKE_C_FLAGS="$SANITIZER_FLAGS" \
+            -DCMAKE_CXX_FLAGS="$SANITIZER_FLAGS" \
             -DBUILD_TESTS=ON
 
       - name: Build
