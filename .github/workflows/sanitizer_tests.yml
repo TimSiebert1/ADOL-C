@@ -13,7 +13,8 @@ jobs:
       matrix: 
         sanitizer: [Address, Undefined, Thread, Leak]
         build_type: [Debug]
-        compiler: [gcc, clang]
+        c_compiler : [clang]
+        cpp_compiler: [clang++]
 
     steps:
       - name: Checkout code
@@ -27,8 +28,8 @@ jobs:
           cmake -S . -B build \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
             -DUSE_SANITIZER=${{ matrix.sanitizer }} \
-            -DCMAKE_CXX_COMPILER=${{ matrix.compiler }} \
-            -DCMAKE_C_COMPILER=${{ matrix.compiler }} \
+            -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
+            -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
             -DBUILD_TESTS=ON
 
       - name: Build
