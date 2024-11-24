@@ -41,10 +41,3 @@ jobs:
       - name: Run tests
         run: |
           cd build && ctest -V
-
-      - name: Upload logs
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: sanitizer-logs
-          path: build/**/*.log
