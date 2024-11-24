@@ -1,0 +1,49 @@
+name: Sanitizer Testing Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  sanitizer-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        sanitizer: [Address, Undefined, Thread, Leak]
+        compiler: [gcc, clang]
+        build_type: [Debug, Release]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y cmake g++ clang
+
+      - name: Configure CMake
+        run: |
+          cmake -S . -B build \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+            -DUSE_SANITIZER=${{ matrix.sanitizer }} \
+            -DCMAKE_C_COMPILER=${{ matrix.compiler }} \
+            -DCMAKE_CXX_COMPILER=${{ matrix.compiler }} \
+            -DBUILD_TESTS=ON
+
+      - name: Build
+        run: cmake --build build -- -j$(nproc)
+
+      - name: Run tests
+        run: |
+          cd build && ctest --output-on-failure
+
+      - name: Upload logs
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: sanitizer-logs
+          path: build/**/*.log
