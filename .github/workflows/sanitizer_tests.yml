@@ -11,10 +11,10 @@ jobs:
     strategy: 
       fail-fast: false
       matrix: 
-        sanitizer_flags: [-fsanitize=address -fno-omit-frame-pointer,
-                          -fsanitize=undefined -fno-sanitize-recover=undefined,
-                          -fsanitize=thread, 
-                          -fsanitize=memory]
+        sanitizer_flags: ["-fsanitize=address -fno-omit-frame-pointer",
+                          "-fsanitize=undefined -fno-sanitize-recover=undefined",
+                          "-fsanitize=thread", 
+                          "-fsanitize=memory"]
         build_type: [Debug]
         c_compiler : [clang]
         cpp_compiler: [clang++]
