@@ -11,7 +11,10 @@ jobs:
     strategy: 
       fail-fast: false
       matrix: 
-        sanitizer: [Address, Undefined, Thread, Leak]
+        sanitizer_flags: [-fsanitize=address -fno-omit-frame-pointer,
+                          -fsanitize=undefined -fno-sanitize-recover=undefined,
+                          -fsanitize=thread, 
+                          -fsanitize=memory]
         build_type: [Debug]
         c_compiler : [clang]
         cpp_compiler: [clang++]
@@ -27,7 +30,7 @@ jobs:
         run: |
           cmake -S . -B build \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-            -DUSE_SANITIZER=${{ matrix.sanitizer }} \
+            -DCMAKE_CXX_FLAGS==${{ matrix.sanitizer_flags }} \
             -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
             -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
             -DBUILD_TESTS=ON
