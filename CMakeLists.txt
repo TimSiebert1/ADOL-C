@@ -64,6 +64,10 @@ add_subdirectory(ADOL-C)
 # ----------------------------------------------------------------
 option(BUILD_INTERFACE OFF)
 if(BUILD_INTERFACE)
+    # the path is needed if because the internal/adolc_setting.h 
+    # is otherwise not found in the build dir
+    set(ADOLC_INCLUDE_DIR "${CMAKE_BINARY_DIR}/ADOL-C/include")
+    
     # set rpath for execution to the install location of adolc
     set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
     add_subdirectory(ADOL-C/c_interface)
@@ -76,6 +80,8 @@ endif()
 # ------------------------------------
 option(BUILD_TESTS OFF)
 if(BUILD_TESTS)
+    # the path is needed if because the internal/adolc_setting.h 
+    # is otherwise not found in the build dir
     set(ADOLC_INCLUDE_DIR "${CMAKE_BINARY_DIR}/ADOL-C/include")
     add_subdirectory(ADOL-C/boost-test)
 
