@@ -1,6 +1,6 @@
 #ifndef ADOLC_TL_INTERFACE_H
 #define ADOLC_TL_INTERFACE_H
-
+#include <cstddef>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -34,13 +34,14 @@ Utilities for tape-less adouble
 #ifdef __cplusplus
 extern "C" {
 #endif
-void set_num_dir(const size_t n);
+void set_num_dir(const std::size_t n);
 void set_tl_value(TLAdoubleHandle a, const double val);
 void set_tl_ad_value(TLAdoubleHandle a, const double *const val);
-void set_tl_ad_value_idx(TLAdoubleHandle a, const size_t pos, const double val);
+void set_tl_ad_value_idx(TLAdoubleHandle a, const std::size_t pos,
+                         const double val);
 double get_tl_value(TLAdoubleHandle a);
 const double *get_tl_ad_values(TLAdoubleHandle a);
-double get_tl_ad_value_idx(TLAdoubleHandle a, const size_t pos);
+double get_tl_ad_value_idx(TLAdoubleHandle a, const std::size_t pos);
 #ifdef __cplusplus
 }
 #endif

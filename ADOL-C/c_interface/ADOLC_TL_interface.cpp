@@ -1,6 +1,6 @@
 #include "ADOLC_TL_interface.h"
 #include <adolc/adtl.h>
-
+#include <cstddef>
 /*
 Constructor & Destructor for class tape-less adouble
 */
@@ -22,7 +22,7 @@ void free_tl_adouble(TLAdoubleHandle a) {
 Utilities for adouble
 */
 extern "C" {
-void set_num_dir(const size_t n) { return adtl::setNumDir(n); }
+void set_num_dir(const std::size_t n) { return adtl::setNumDir(n); }
 
 void set_tl_value(TLAdoubleHandle a, const double val) {
   return static_cast<adtl::adouble *>(a)->setValue(val);
@@ -32,7 +32,7 @@ void set_tl_ad_value(TLAdoubleHandle a, const double *const val) {
   return static_cast<adtl::adouble *>(a)->setADValue(val);
 }
 
-void set_tl_ad_value_idx(TLAdoubleHandle a, const size_t pos,
+void set_tl_ad_value_idx(TLAdoubleHandle a, const std::size_t pos,
                          const double val) {
   return static_cast<adtl::adouble *>(a)->setADValue(pos, val);
 }
@@ -43,7 +43,7 @@ double get_tl_value(const TLAdoubleHandle a) {
 const double *get_tl_ad_values(const TLAdoubleHandle a) {
   return (static_cast<adtl::adouble *>(a))->getADValue();
 }
-double get_tl_ad_value_idx(const TLAdoubleHandle a, const size_t pos) {
+double get_tl_ad_value_idx(const TLAdoubleHandle a, const std::size_t pos) {
   return static_cast<adtl::adouble *>(a)->getADValue(pos);
 }
 }

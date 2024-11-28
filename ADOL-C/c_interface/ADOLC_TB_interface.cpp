@@ -1,5 +1,6 @@
 #include "ADOLC_TB_interface.h"
 #include <adolc/adolc.h>
+#include <cstddef>
 
 /*
 Constructor & Destructor for class tape-based adouble
@@ -215,13 +216,13 @@ void create_independent(TBAdoubleHandle a, const double x) {
 void create_dependent(TBAdoubleHandle a, double *y) {
   *static_cast<adouble *>(a) >>= *y;
 }
-size_t num_independent(short tape_id) {
-  size_t y[STAT_SIZE];
+std::size_t num_independent(short tape_id) {
+  std::size_t y[STAT_SIZE];
   tapestats(tape_id, y);
   return y[NUM_INDEPENDENTS];
 }
-size_t num_dependent(short tape_id) {
-  size_t y[STAT_SIZE];
+std::size_t num_dependent(short tape_id) {
+  std::size_t y[STAT_SIZE];
   tapestats(tape_id, y);
   return y[NUM_DEPENDENTS];
 }

@@ -1,6 +1,8 @@
 #ifndef ADOLC_TB_INTERFACE_H
 #define ADOLC_TB_INTERFACE_H
 
+#include <cstddef>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
