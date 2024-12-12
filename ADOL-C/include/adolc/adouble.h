@@ -54,6 +54,9 @@ class adub;
 class badouble;
 class pdouble;
 
+struct tape_index {
+  std::size_t index;
+};
 /*--------------------------------------------------------------------------*/
 void ADOLC_DLL_EXPORT condassign(double &res, const double &cond,
                                  const double &arg1, const double &arg2);
@@ -277,6 +280,7 @@ public:
   adouble(const adouble &);
   adouble(void);
   adouble(double);
+  adouble(tape_index index): badouble(index.index) {};
 /* adub prevents postfix operators to occur on the left
    side of an assignment which would not work  */
 #if !defined(SWIGPRE)
