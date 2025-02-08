@@ -572,7 +572,7 @@ static void clearCurrentTape() {
 void cleanUp() {
   ADOLC_OPENMP_THREAD_NUMBER;
   ADOLC_OPENMP_GET_THREAD_NUMBER;
-
+  std::cout << "error begin\n" << std::endl;
   TapeInfos **tiIter;
   clearCurrentTape();
   while (!ADOLC_TAPE_INFOS_BUFFER.empty()) {
@@ -662,7 +662,7 @@ void cleanUp() {
       *tiIter = nullptr;
     }
   }
-
+  std::cout << "error middle\n" << std::endl;
   cp_clearStack();
 
   delete[] ADOLC_GLOBAL_TAPE_VARS.store;
@@ -684,7 +684,7 @@ void cleanUp() {
     delete tapeInfosBuffer;
   }
 #endif
-
+  std::cout << "error end\n" << std::endl;
   ADOLC_OPENMP_RESTORE_THREAD_NUMBER;
 }
 
