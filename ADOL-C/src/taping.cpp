@@ -1329,7 +1329,8 @@ static void read_params(TapeInfos *tapeInfos) {
     tapeInfos->pTapeInfos.paramstore = new double[tapeInfos->stats[NUM_PARAM]];
   valBuffer = new double[tapeInfos->stats[VAL_BUFFER_SIZE]];
   lastValP1 = valBuffer + tapeInfos->stats[VAL_BUFFER_SIZE];
-  if ((val_file = fopen(tapeInfos->pTapeInfos.val_fileName, "rb")) == nullptr)
+  if (tapeInfos->pTapeInfos.val_fileName != nullptr &&
+      (val_file = fopen(tapeInfos->pTapeInfos.val_fileName, "rb")) == nullptr)
     fail(ADOLC_VALUE_TAPE_FOPEN_FAILED);
   number = (tapeInfos->stats[NUM_VALUES] / tapeInfos->stats[VAL_BUFFER_SIZE]) *
            tapeInfos->stats[VAL_BUFFER_SIZE];
@@ -1426,7 +1427,8 @@ void read_tape_stats(TapeInfos *tapeInfos) {
   limitVersion = 100 * ADOLC_NEW_TAPE_VERSION + 10 * ADOLC_NEW_TAPE_SUBVERSION +
                  1 * ADOLC_NEW_TAPE_PATCHLEVEL;
 
-  if ((loc_file = fopen(tapeInfos->pTapeInfos.loc_fileName, "rb")) == nullptr)
+  if (tapeInfos->pTapeInfos.loc_fileName != nullptr &&
+      (loc_file = fopen(tapeInfos->pTapeInfos.loc_fileName, "rb")) == nullptr)
     fail(ADOLC_INTEGER_TAPE_FOPEN_FAILED);
   if (fread(&tape_ADOLC_ID, sizeof(ADOLC_ID), 1, loc_file) != 1)
     fail(ADOLC_INTEGER_TAPE_FREAD_FAILED);
