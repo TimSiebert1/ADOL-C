@@ -595,7 +595,7 @@ void cleanUp() {
         (*tiIter)->tay_file = nullptr;
         remove((*tiIter)->pTapeInfos.tay_fileName);
       }
-
+      std::cout << "error end\n" << std::endl;
       delete[] ((*tiIter)->opBuffer);
       (*tiIter)->opBuffer = nullptr;
 
@@ -662,7 +662,7 @@ void cleanUp() {
       *tiIter = nullptr;
     }
   }
-  std::cout << "error middle\n" << std::endl;
+  std::cout << "error end\n" << std::endl;
   cp_clearStack();
 
   delete[] ADOLC_GLOBAL_TAPE_VARS.store;
@@ -684,7 +684,6 @@ void cleanUp() {
     delete tapeInfosBuffer;
   }
 #endif
-  std::cout << "error end\n" << std::endl;
   ADOLC_OPENMP_RESTORE_THREAD_NUMBER;
 }
 
