@@ -577,14 +577,17 @@ void cleanUp() {
   while (!ADOLC_TAPE_INFOS_BUFFER.empty()) {
     tiIter = &ADOLC_TAPE_INFOS_BUFFER.back();
     std::cout << "error before\n" << std::endl;
+    if (tiIter == nullptr) {
+      std::cout << "nullptr\n" << std::endl;
+    }
     ADOLC_TAPE_INFOS_BUFFER.pop_back();
     std::cout << "error after\n" << std::endl;
     {
       /* close open files though they may be incomplete */
-      std::cout << "error inside\n" << std::endl;
+
       fclose((*tiIter)->op_file);
       (*tiIter)->op_file = nullptr;
-
+      std::cout << "error inside\n" << std::endl;
       fclose((*tiIter)->val_file);
       (*tiIter)->val_file = nullptr;
       std::cout << "error short\n" << std::endl;
