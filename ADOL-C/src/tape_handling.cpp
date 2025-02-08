@@ -32,8 +32,6 @@
 #include <stack>
 #include <vector>
 
-using namespace std;
-
 #ifdef SPARSE
 BEGIN_C_DECLS
 extern void freeSparseJacInfos(double *y, double **B, unsigned int **JP,
@@ -108,7 +106,7 @@ GlobalTapeVarsCL::operator=(const GlobalTapeVarsCL &gtv) {
 }
 
 /* vector of tape infos for all tapes in use */
-vector<TapeInfos *> ADOLC_TAPE_INFOS_BUFFER_DECL;
+std::vector<TapeInfos *> ADOLC_TAPE_INFOS_BUFFER_DECL;
 
 /* stack of pointers to tape infos
  * represents the order of tape usage when doing nested taping */
@@ -122,7 +120,7 @@ TapeInfos ADOLC_CURRENT_TAPE_INFOS_FALLBACK_DECL;
 GlobalTapeVars ADOLC_GLOBAL_TAPE_VARS_DECL;
 
 #if defined(_OPENMP)
-static vector<TapeInfos *> *tapeInfosBuffer_s;
+static std::vector<TapeInfos *> *tapeInfosBuffer_s;
 static stack<TapeInfos *> *tapeStack_s;
 static TapeInfos *currentTapeInfos_s;
 static TapeInfos *currentTapeInfos_fallBack_s;
@@ -131,7 +129,7 @@ static ADOLC_BUFFER_TYPE *ADOLC_extDiffFctsBuffer_s;
 static stack<StackElement> *ADOLC_checkpointsStack_s;
 static revolve_nums *revolve_numbers_s;
 
-static vector<TapeInfos *> *tapeInfosBuffer_p;
+static std::vector<TapeInfos *> *tapeInfosBuffer_p;
 static stack<TapeInfos *> *tapeStack_p;
 static TapeInfos *currentTapeInfos_p;
 static TapeInfos *currentTapeInfos_fallBack_p;
@@ -194,7 +192,7 @@ int initNewTape(short tapeID) {
   ADOLC_OPENMP_GET_THREAD_NUMBER;
 
   /* check if tape is in use */
-  vector<TapeInfos *>::iterator tiIter = std::find_if(
+  std::vector<TapeInfos *>::iterator tiIter = std::find_if(
       ADOLC_TAPE_INFOS_BUFFER.begin(), ADOLC_TAPE_INFOS_BUFFER.end(),
       [&tapeID](auto &&ti) { return ti->tapeID == tapeID; });
 
@@ -306,7 +304,7 @@ void openTape(short tapeID, char mode) {
   ADOLC_OPENMP_GET_THREAD_NUMBER;
 
   /* check if tape information exist in memory */
-  vector<TapeInfos *>::iterator tiIter = std::find_if(
+  std::vector<TapeInfos *>::iterator tiIter = std::find_if(
       ADOLC_TAPE_INFOS_BUFFER.begin(), ADOLC_TAPE_INFOS_BUFFER.end(),
       [&tapeID](auto &&ti) { return ti->tapeID == tapeID; });
 
@@ -432,8 +430,8 @@ char currently_nested(short tag) {
 }
 
 void cachedTraceTags(std::vector<short> &result) {
-  vector<TapeInfos *>::const_iterator tiIter;
-  vector<short>::iterator tIdIter;
+  std::vector<TapeInfos *>::const_iterator tiIter;
+  std::vector<short>::iterator tIdIter;
   ADOLC_OPENMP_THREAD_NUMBER;
   ADOLC_OPENMP_GET_THREAD_NUMBER;
 
@@ -455,7 +453,7 @@ void setTapeInfoJacSparse(short tapeID, SparseJacInfos sJinfos) {
   ADOLC_OPENMP_GET_THREAD_NUMBER;
 
   /* check if TapeInfos for tapeID exist */
-  vector<TapeInfos *>::iterator tiIter = std::find_if(
+  std::vector<TapeInfos *>::iterator tiIter = std::find_if(
       ADOLC_TAPE_INFOS_BUFFER.begin(), ADOLC_TAPE_INFOS_BUFFER.end(),
       [&tapeID](auto &&ti) { return ti->tapeID == tapeID; });
 
@@ -492,7 +490,7 @@ void setTapeInfoHessSparse(short tapeID, SparseHessInfos sHinfos) {
   ADOLC_OPENMP_GET_THREAD_NUMBER;
 
   /* check if TapeInfos for tapeID exist */
-  vector<TapeInfos *>::iterator tiIter = std::find_if(
+  std::vector<TapeInfos *>::iterator tiIter = std::find_if(
       ADOLC_TAPE_INFOS_BUFFER.begin(), ADOLC_TAPE_INFOS_BUFFER.end(),
       [&tapeID](auto &&ti) { return ti->tapeID == tapeID; });
 
@@ -526,7 +524,7 @@ static void init_lib() {
   ADOLC_OPENMP_GET_THREAD_NUMBER;
 
 #if defined(_OPENMP)
-  tapeInfosBuffer = new vector<TapeInfos *>;
+  tapeInfosBuffer = new std::vector<TapeInfos *>;
   tapeStack = new stack<TapeInfos *>;
   currentTapeInfos = new TapeInfos;
   currentTapeInfos->tapingComplete = 1;
@@ -696,7 +694,7 @@ int removeTape(short tapeID, short type) {
   ADOLC_OPENMP_GET_THREAD_NUMBER;
 
   /* check if TapeInfos for tapeID exist */
-  vector<TapeInfos *>::iterator tiIter = std::find_if(
+  std::vector<TapeInfos *>::iterator tiIter = std::find_if(
       ADOLC_TAPE_INFOS_BUFFER.begin(), ADOLC_TAPE_INFOS_BUFFER.end(),
       [&tapeID](auto &&ti) { return ti->tapeID == tapeID; });
 
@@ -818,7 +816,7 @@ void trace_off(int flag) {
   ADOLC_CURRENT_TAPE_INFOS.pTapeInfos.keepTape = flag;
   keep_stock(); /* copy remaining live variables + trace_flag = 0 */
   stop_trace(flag);
-  cout.flush();
+  std::cout.flush();
   ADOLC_CURRENT_TAPE_INFOS.tapingComplete = 1;
   ADOLC_CURRENT_TAPE_INFOS.workMode = ADOLC_NO_MODE;
   releaseTape();
@@ -899,7 +897,7 @@ void beginParallel() {
     revolve_numbers_s = revolve_numbers;
 
     if (firstParallel) {
-      tapeInfosBuffer = new vector<TapeInfos *>[numThreads];
+      tapeInfosBuffer = new std::vector<TapeInfos *>[numThreads];
       tapeStack = new stack<TapeInfos *>[numThreads];
       currentTapeInfos = new TapeInfos[numThreads];
       currentTapeInfos_fallBack = new TapeInfos[numThreads];

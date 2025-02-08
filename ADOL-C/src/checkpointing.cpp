@@ -24,7 +24,6 @@
 #include <cstring>
 
 #include <stack>
-using namespace std;
 
 ADOLC_BUFFER_TYPE ADOLC_EXT_DIFF_FCTS_BUFFER_DECL;
 
