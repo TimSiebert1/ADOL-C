@@ -1037,6 +1037,7 @@ TapeInfos::TapeInfos(short _tapeID) : pTapeInfos() {
   initTapeInfos(this);
   tapeID = _tapeID;
   pTapeInfos.op_fileName = createFileName(tapeID, OPERATIONS_TAPE);
+  std::cout << createFileName(tapeID, OPERATIONS_TAPE) << std::endl;
   pTapeInfos.loc_fileName = createFileName(tapeID, LOCATIONS_TAPE);
   pTapeInfos.val_fileName = createFileName(tapeID, VALUES_TAPE);
   pTapeInfos.tay_fileName = nullptr;
