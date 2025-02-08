@@ -355,7 +355,10 @@ void printError() {
 }
 
 /* the base names of every tape type */
-std::array<std::string, 4> tapeBaseNames;
+std::array<std::string, 4> &getTapeBaseNames() {
+  static std::array<std::string, 4> tapeBaseNames;
+  return tapeBaseNames;
+}
 
 /****************************************************************************/
 /* Returns the char*: tapeBaseName+tapeID+.tap+\0 or if parallelization is */
@@ -363,7 +366,7 @@ std::array<std::string, 4> tapeBaseNames;
 /* The result string must be freed be the caller!                           */
 /****************************************************************************/
 char *createFileName(short tapeID, int tapeType) {
-  std::string fileName(tapeBaseNames[tapeType]);
+  std::string fileName(getTapeBaseNames()[tapeType]);
 
 #if defined(_OPENMP)
   if (ADOLC_GLOBAL_TAPE_VARS.inParallelRegion == 1) {
@@ -391,14 +394,15 @@ void readConfigFile() {
        *start = nullptr, *end = nullptr;
   int base;
   size_t number = 0;
-  std::cout << "read config\n";
   char *path = nullptr;
-  tapeBaseNames[0] =
+  getTapeBaseNames()[0] =
       std::string(TAPE_DIR) + PATHSEPARATOR + ADOLC_LOCATIONS_NAME;
-  tapeBaseNames[1] = std::string(TAPE_DIR) + PATHSEPARATOR + ADOLC_VALUES_NAME;
-  tapeBaseNames[2] =
+  getTapeBaseNames()[1] =
+      std::string(TAPE_DIR) + PATHSEPARATOR + ADOLC_VALUES_NAME;
+  getTapeBaseNames()[2] =
       std::string(TAPE_DIR) + PATHSEPARATOR + ADOLC_OPERATIONS_NAME;
-  tapeBaseNames[3] = std::string(TAPE_DIR) + PATHSEPARATOR + ADOLC_TAYLORS_NAME;
+  getTapeBaseNames()[3] =
+      std::string(TAPE_DIR) + PATHSEPARATOR + ADOLC_TAYLORS_NAME;
 
   ADOLC_OPENMP_THREAD_NUMBER;
   ADOLC_OPENMP_GET_THREAD_NUMBER;
@@ -459,13 +463,13 @@ void readConfigFile() {
             err = stat(path, &st);
             if (err == 0 && S_ISDIR(st.st_mode)) {
 
-              tapeBaseNames[0] =
+              getTapeBaseNames()[0] =
                   std::string(path) + PATHSEPARATOR + ADOLC_LOCATIONS_NAME;
-              tapeBaseNames[1] =
+              getTapeBaseNames()[1] =
                   std::string(path) + PATHSEPARATOR + ADOLC_VALUES_NAME;
-              tapeBaseNames[2] =
+              getTapeBaseNames()[2] =
                   std::string(path) + PATHSEPARATOR + ADOLC_OPERATIONS_NAME;
-              tapeBaseNames[3] =
+              getTapeBaseNames()[3] =
                   std::string(path) + PATHSEPARATOR + ADOLC_TAYLORS_NAME;
 
               fprintf(
@@ -520,7 +524,6 @@ void readConfigFile() {
     fprintf(DIAG_OUT, "****************************************\n\n");
     fclose(configFile);
   }
-  std::cout << "end read config" << std::endl;
   ADOLC_OPENMP_RESTORE_THREAD_NUMBER;
 }
 
