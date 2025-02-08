@@ -572,13 +572,14 @@ static void clearCurrentTape() {
 void cleanUp() {
   ADOLC_OPENMP_THREAD_NUMBER;
   ADOLC_OPENMP_GET_THREAD_NUMBER;
-  std::cout << "error begin\n" << std::endl;
   TapeInfos **tiIter;
   clearCurrentTape();
   std::cout << "error short\n" << std::endl;
   while (!ADOLC_TAPE_INFOS_BUFFER.empty()) {
     tiIter = &ADOLC_TAPE_INFOS_BUFFER.back();
+    std::cout << "error before\n" << std::endl;
     ADOLC_TAPE_INFOS_BUFFER.pop_back();
+    std::cout << "error after\n" << std::endl;
     {
       /* close open files though they may be incomplete */
 
