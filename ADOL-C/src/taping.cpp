@@ -392,6 +392,12 @@ void readConfigFile() {
   int base;
   size_t number = 0;
   char *path = nullptr;
+  tapeBaseNames[0] =
+      std::string(TAPE_DIR) + PATHSEPARATOR + ADOLC_LOCATIONS_NAME;
+  tapeBaseNames[1] = std::string(TAPE_DIR) + PATHSEPARATOR + ADOLC_VALUES_NAME;
+  tapeBaseNames[2] =
+      std::string(TAPE_DIR) + PATHSEPARATOR + ADOLC_OPERATIONS_NAME;
+  tapeBaseNames[3] = std::string(TAPE_DIR) + PATHSEPARATOR + ADOLC_TAYLORS_NAME;
 
   ADOLC_OPENMP_THREAD_NUMBER;
   ADOLC_OPENMP_GET_THREAD_NUMBER;
