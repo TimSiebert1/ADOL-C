@@ -575,6 +575,7 @@ void cleanUp() {
   std::cout << "error begin\n" << std::endl;
   TapeInfos **tiIter;
   clearCurrentTape();
+  std::cout << "error short\n" << std::endl;
   while (!ADOLC_TAPE_INFOS_BUFFER.empty()) {
     tiIter = &ADOLC_TAPE_INFOS_BUFFER.back();
     ADOLC_TAPE_INFOS_BUFFER.pop_back();
