@@ -522,16 +522,16 @@ static void init_lib() {
   ADOLC_OPENMP_THREAD_NUMBER;
   errno = 0;
   ADOLC_OPENMP_GET_THREAD_NUMBER;
-
+  std::cout << "inside init\n";
 #if defined(_OPENMP)
   tapeInfosBuffer = new std::vector<TapeInfos *>;
-  tapeStack = new stack<TapeInfos *>;
+  tapeStack = new std::stack<TapeInfos *>;
   currentTapeInfos = new TapeInfos;
   currentTapeInfos->tapingComplete = 1;
   currentTapeInfos_fallBack = new TapeInfos;
   globalTapeVars = new GlobalTapeVars;
   ADOLC_extDiffFctsBuffer = new ADOLC_BUFFER_TYPE;
-  ADOLC_checkpointsStack = new stack<StackElement>;
+  ADOLC_checkpointsStack = new std::stack<StackElement>;
   revolve_numbers = new revolve_nums;
 #endif /* _OPENMP */
 

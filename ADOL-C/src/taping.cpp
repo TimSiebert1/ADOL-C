@@ -391,6 +391,7 @@ void readConfigFile() {
        *start = nullptr, *end = nullptr;
   int base;
   size_t number = 0;
+  std::cout << "read config\n";
   char *path = nullptr;
   tapeBaseNames[0] =
       std::string(TAPE_DIR) + PATHSEPARATOR + ADOLC_LOCATIONS_NAME;
@@ -519,6 +520,7 @@ void readConfigFile() {
     fprintf(DIAG_OUT, "****************************************\n\n");
     fclose(configFile);
   }
+  std::cout << "end read config" << std::endl;
   ADOLC_OPENMP_RESTORE_THREAD_NUMBER;
 }
 
