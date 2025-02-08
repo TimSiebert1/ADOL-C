@@ -577,20 +577,19 @@ void cleanUp() {
   while (!ADOLC_TAPE_INFOS_BUFFER.empty()) {
     tiIter = &ADOLC_TAPE_INFOS_BUFFER.back();
     std::cout << "error before\n" << std::endl;
-    if (tiIter == nullptr) {
-      std::cout << "nullptr\n" << std::endl;
-    }
     ADOLC_TAPE_INFOS_BUFFER.pop_back();
-    std::cout << "error after\n" << std::endl;
     {
       /* close open files though they may be incomplete */
 
+      (*tiIter)->op_file;
+      std::cout << "bef" << std::endl;
       fclose((*tiIter)->op_file);
-      (*tiIter)->op_file = nullptr;
       std::cout << "error inside\n" << std::endl;
+      (*tiIter)->op_file = nullptr;
+
       fclose((*tiIter)->val_file);
       (*tiIter)->val_file = nullptr;
-      std::cout << "error short\n" << std::endl;
+
       fclose((*tiIter)->loc_file);
       (*tiIter)->loc_file = nullptr;
 
@@ -599,7 +598,6 @@ void cleanUp() {
         (*tiIter)->tay_file = nullptr;
         remove((*tiIter)->pTapeInfos.tay_fileName);
       }
-      std::cout << "error end\n" << std::endl;
       delete[] ((*tiIter)->opBuffer);
       (*tiIter)->opBuffer = nullptr;
 
