@@ -689,6 +689,7 @@ void cleanUp() {
 }
 
 int removeTape(short tapeID, short type) {
+  std::cout << "here!" << std::endl;
   TapeInfos *tapeInfos = nullptr;
   ADOLC_OPENMP_THREAD_NUMBER;
   ADOLC_OPENMP_GET_THREAD_NUMBER;
