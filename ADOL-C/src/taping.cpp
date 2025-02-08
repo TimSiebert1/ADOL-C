@@ -19,13 +19,10 @@
 #include <adolc/oplate.h>
 #include <adolc/taping_p.h>
 #include <array>
-#include <cstring>
 #include <iostream>
-#include <math.h>
 #include <string>
 
 #include <sys/stat.h>
-#include <sys/types.h>
 
 #ifdef ADOLC_AMPI_SUPPORT
 #include "ampi/ampi.h"
