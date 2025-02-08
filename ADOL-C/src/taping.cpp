@@ -21,7 +21,6 @@
 #include <array>
 #include <iostream>
 #include <math.h>
-#include <string.h>
 #include <string>
 
 #include <sys/stat.h>
