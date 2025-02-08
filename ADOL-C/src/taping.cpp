@@ -19,6 +19,7 @@
 #include <adolc/oplate.h>
 #include <adolc/taping_p.h>
 #include <array>
+#include <cstring>
 #include <iostream>
 #include <string>
 
