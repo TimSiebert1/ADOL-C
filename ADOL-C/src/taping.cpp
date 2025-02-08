@@ -347,7 +347,7 @@ void printError() {
     break;
   default:
     fprintf(DIAG_OUT, ">>> ");
-    fprintf(DIAG_OUT, "%s", strerror(errno));
+    fprintf(DIAG_OUT, "%s", std::strerror(errno));
     fprintf(DIAG_OUT, " <<<\n");
     break;
   }
@@ -404,7 +404,7 @@ void readConfigFile() {
     fprintf(DIAG_OUT, "\nFile .adolcrc found! => Try to parse it!\n");
     fprintf(DIAG_OUT, "****************************************\n");
     while (fgets(inputLine, ADOLC_LINE_LENGTH + 1, configFile) == inputLine) {
-      if (strlen(inputLine) == ADOLC_LINE_LENGTH &&
+      if (std::strlen(inputLine) == ADOLC_LINE_LENGTH &&
           inputLine[ADOLC_LINE_LENGTH - 1] != 0xA) {
         fprintf(DIAG_OUT,
                 "ADOL-C warning: Input line in .adolcrc exceeds"
@@ -413,16 +413,16 @@ void readConfigFile() {
         fprintf(DIAG_OUT, "                => Parsing aborted!!\n");
         break;
       }
-      pos1 = strchr(inputLine, '"');
+      pos1 = std::strchr(inputLine, '"');
       pos2 = nullptr;
       pos3 = nullptr;
       pos4 = nullptr;
       if (pos1 != nullptr) {
-        pos2 = strchr(pos1 + 1, '"');
+        pos2 = std::strchr(pos1 + 1, '"');
         if (pos2 != nullptr) {
-          pos3 = strchr(pos2 + 1, '"');
+          pos3 = std::strchr(pos2 + 1, '"');
           if (pos3 != nullptr)
-            pos4 = strchr(pos3 + 1, '"');
+            pos4 = std::strchr(pos3 + 1, '"');
         }
       }
       if (pos4 == nullptr) {
@@ -444,7 +444,7 @@ void readConfigFile() {
         if (end == start) {
           *pos2 = 0;
           *pos4 = 0;
-          if (strcmp(pos1 + 1, "TAPE_DIR") == 0) {
+          if (std::strcmp(pos1 + 1, "TAPE_DIR") == 0) {
             struct stat st;
             int err;
             path = pos3 + 1;
@@ -476,28 +476,28 @@ void readConfigFile() {
         } else {
           *pos2 = 0;
           *pos4 = 0;
-          if (strcmp(pos1 + 1, "OBUFSIZE") == 0) {
+          if (std::strcmp(pos1 + 1, "OBUFSIZE") == 0) {
             ADOLC_GLOBAL_TAPE_VARS.operationBufferSize = (locint)number;
             fprintf(DIAG_OUT, "Found operation buffer size: %zu\n",
                     (locint)number);
-          } else if (strcmp(pos1 + 1, "LBUFSIZE") == 0) {
+          } else if (std::strcmp(pos1 + 1, "LBUFSIZE") == 0) {
             ADOLC_GLOBAL_TAPE_VARS.locationBufferSize = (locint)number;
             fprintf(DIAG_OUT, "Found location buffer size: %zu\n",
                     (locint)number);
-          } else if (strcmp(pos1 + 1, "VBUFSIZE") == 0) {
+          } else if (std::strcmp(pos1 + 1, "VBUFSIZE") == 0) {
             ADOLC_GLOBAL_TAPE_VARS.valueBufferSize = (locint)number;
             fprintf(DIAG_OUT, "Found value buffer size: %zu\n", (locint)number);
-          } else if (strcmp(pos1 + 1, "TBUFSIZE") == 0) {
+          } else if (std::strcmp(pos1 + 1, "TBUFSIZE") == 0) {
             ADOLC_GLOBAL_TAPE_VARS.taylorBufferSize = (locint)number;
             fprintf(DIAG_OUT, "Found taylor buffer size: %zu\n",
                     (locint)number);
-          } else if (strcmp(pos1 + 1, "TBUFNUM") == 0) {
+          } else if (std::strcmp(pos1 + 1, "TBUFNUM") == 0) {
             ADOLC_GLOBAL_TAPE_VARS.maxNumberTaylorBuffers = (int)number;
             fprintf(DIAG_OUT,
                     "Found maximal number of taylor buffers: "
                     "%d\n",
                     (int)number);
-          } else if (strcmp(pos1 + 1, "INITLIVE") == 0) {
+          } else if (std::strcmp(pos1 + 1, "INITLIVE") == 0) {
             ADOLC_GLOBAL_TAPE_VARS.initialStoreSize = (locint)number;
             fprintf(DIAG_OUT, "Found initial live variable store size : %zu\n",
                     (locint)number);
@@ -1058,9 +1058,9 @@ static void save_params() {
   // Calling memcpy with that is undefined behavior, and sanitizers will issue
   // a warning.
   if (ADOLC_CURRENT_TAPE_INFOS.stats[NUM_PARAM] > 0) {
-    memcpy(ADOLC_CURRENT_TAPE_INFOS.pTapeInfos.paramstore,
-           ADOLC_GLOBAL_TAPE_VARS.pStore,
-           ADOLC_CURRENT_TAPE_INFOS.stats[NUM_PARAM] * sizeof(double));
+    std::memcpy(ADOLC_CURRENT_TAPE_INFOS.pTapeInfos.paramstore,
+                ADOLC_GLOBAL_TAPE_VARS.pStore,
+                ADOLC_CURRENT_TAPE_INFOS.stats[NUM_PARAM] * sizeof(double));
   }
   free_all_taping_params();
   if (ADOLC_CURRENT_TAPE_INFOS.currVal +
@@ -1725,8 +1725,8 @@ void put_op_reserve(unsigned char op, unsigned int reserveExtraLocations) {
     size_t remainder =
         ADOLC_CURRENT_TAPE_INFOS.lastLocP1 - ADOLC_CURRENT_TAPE_INFOS.currLoc;
     if (remainder > 0)
-      memset(ADOLC_CURRENT_TAPE_INFOS.currLoc, 0,
-             (remainder - 1) * sizeof(locint));
+      std::memset(ADOLC_CURRENT_TAPE_INFOS.currLoc, 0,
+                  (remainder - 1) * sizeof(locint));
     *(ADOLC_CURRENT_TAPE_INFOS.lastLocP1 - 1) = remainder;
     put_loc_block(ADOLC_CURRENT_TAPE_INFOS.lastLocP1);
     /* every operation writes 1 opcode */
@@ -1748,7 +1748,8 @@ void put_op_reserve(unsigned char op, unsigned int reserveExtraLocations) {
     ADOLC_PUT_LOCINT(valRemainder);
     /* avoid writing uninitialized memory to the file and get valgrind upset
      */
-    memset(ADOLC_CURRENT_TAPE_INFOS.currVal, 0, valRemainder * sizeof(double));
+    std::memset(ADOLC_CURRENT_TAPE_INFOS.currVal, 0,
+                valRemainder * sizeof(double));
     put_val_block(ADOLC_CURRENT_TAPE_INFOS.lastValP1);
     /* every operation writes 1 opcode */
     if (ADOLC_CURRENT_TAPE_INFOS.currOp + 1 ==
