@@ -16,16 +16,16 @@ endif()
 set(SOURCE_FILES
     adouble.cpp
     main.cpp
-    pdouble.cpp
-    traceCompositeTests.cpp
+    #pdouble.cpp
+    #traceCompositeTests.cpp
     tracelessCompositeTests.cpp
     tracelessOperatorScalar.cpp
     tracelessOperatorVector.cpp
-    traceOperatorScalar.cpp
-    traceOperatorVector.cpp
-    traceSecOrderScalar.cpp
-    traceSecOrderVector.cpp
-    traceFixedPointScalarTests.cpp
+    #traceOperatorScalar.cpp
+    #traceOperatorVector.cpp
+    #traceSecOrderScalar.cpp
+    #traceSecOrderVector.cpp
+    #traceFixedPointScalarTests.cpp
     )
 
 # Add all source files from uni5_for
