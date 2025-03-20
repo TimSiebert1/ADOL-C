@@ -31,6 +31,7 @@ endif(WIN32)
 target_include_directories(adolc
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/ADOL-C/include>
+    $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/ADOL-C/include> # for generated headers
     $<INSTALL_INTERFACE:include>)
 
 # Set an include directory for the internally used library headers.
