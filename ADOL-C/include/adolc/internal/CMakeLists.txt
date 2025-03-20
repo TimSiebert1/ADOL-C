@@ -4,9 +4,9 @@ install(FILES
         DESTINATION "include/adolc/internal")
 
 # Write options into the file adolc_settings.h
-configure_file(adolc_settings.h.in ${CMAKE_CURRENT_BINARY_DIR}/adolc_settings.h @ONLY)
+configure_file(adolc_settings.h.in ${CMAKE_CURRENT_SOURCE_DIR}/adolc_settings.h @ONLY)
 install(FILES
-  ${CMAKE_CURRENT_BINARY_DIR}/adolc_settings.h
+  ${CMAKE_BINARY_DIR}/adolc_settings.h
   DESTINATION "include/adolc/internal")
 target_include_directories(adolc
   PRIVATE
