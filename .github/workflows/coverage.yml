@@ -7,8 +7,13 @@ jobs:
     name: Build
     runs-on: ubuntu-22.04
     steps:
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y gcc-13 g++-13
+        echo "CXX=g++-13" >> $GITHUB_ENV
+        echo "CC=gcc-13" >> $GITHUB_ENV
 
-    - uses: actions/checkout@v4
 
     - name: Install lcov
       run: |
