@@ -4,6 +4,7 @@
 
 #include <array>
 #include <cstring>
+#include <string>
 
 // should remain in a buffer, if we re-use a tape
 struct PersistantTapeInfos {
