@@ -51,7 +51,7 @@ jobs:
     - name: Generate coverage report
       run: |
         cd build
-        lcov --capture --directory . --output-file coverage.info
+        lcov --gcov-tool $(which gcov-13) --capture --directory . --output-file coverage.info
         lcov --remove coverage.info '/usr/*' 'boost/*' 'c++11/*' '/home/runner/work/ADOL-C/ADOL-C/ADOL-C/boost-test/*' --output-file coverage.info
         lcov --list coverage.info
 
