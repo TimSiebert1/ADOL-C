@@ -5,10 +5,15 @@ name: Test Coverage
 jobs:
   run-coverage:
     name: Build
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     steps:
-      
     - uses: actions/checkout@v4
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y gcc-13 g++-13
+        echo "CXX=g++-13" >> $GITHUB_ENV
+        echo "CC=gcc-13" >> $GITHUB_ENV
 
     - name: Install lcov
       run: |
