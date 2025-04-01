@@ -1,5 +1,6 @@
 #include <adolc/adolcerror.h>
 #include <adolc/valuetape/tapeinfos.h>
+#include <cstring> // for memset
 #include <iostream>
 
 TapeInfos::TapeInfos(short tapeId) { tapeId_ = tapeId; }
